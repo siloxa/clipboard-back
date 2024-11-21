@@ -119,18 +119,7 @@ public class AccountResource {
     }
 
     @PostMapping("/account/image")
-    public void saveImage(@Valid @RequestBody AdminUserDTO userDTO, @RequestParam(value = "image") MultipartFile image) {
-        String userEmail = SecurityUtils
-            .getCurrentUserEmail()
-            .orElseThrow(() -> new AccountResourceException("Current user email not found"));
-        Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
-        if (existingUser.isPresent() && (!existingUser.get().getEmail().equalsIgnoreCase(userEmail))) {
-            throw new EmailAlreadyUsedException();
-        }
-        Optional<User> user = userRepository.findOneByEmailIgnoreCase(userEmail);
-        if (!user.isPresent()) {
-            throw new AccountResourceException("User could not be found");
-        }
+    public void saveImage(@RequestParam(value = "image") MultipartFile image) {
         userService.updateImage(image);
     }
 

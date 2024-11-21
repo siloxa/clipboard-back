@@ -13,10 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
+import tech.siloxa.clipboard.domain.ClipBoard;
 import tech.siloxa.clipboard.domain.User;
 import tech.siloxa.clipboard.domain.WorkSpace;
+import tech.siloxa.clipboard.repository.ClipBoardRepository;
 import tech.siloxa.clipboard.repository.WorkSpaceRepository;
 import tech.siloxa.clipboard.service.UserService;
+import tech.siloxa.clipboard.service.dto.InviteDTO;
 import tech.siloxa.clipboard.web.rest.errors.BadRequestAlertException;
 
 import javax.annotation.Resource;
@@ -38,6 +41,9 @@ public class WorkSpaceResource {
 
     @Resource
     private WorkSpaceRepository workSpaceRepository;
+
+    @Resource
+    private ClipBoardRepository clipBoardRepository;
 
     @Resource
     private UserService userService;
@@ -62,38 +68,8 @@ public class WorkSpaceResource {
             .body(result);
     }
 
-    /**
-     * {@code PUT  /work-spaces/:id} : Updates an existing workSpace.
-     *
-     * @param id the id of the workSpace to save.
-     * @param workSpace the workSpace to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated workSpace,
-     * or with status {@code 400 (Bad Request)} if the workSpace is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the workSpace couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PutMapping("/work-spaces/{id}")
-    public ResponseEntity<WorkSpace> updateWorkSpace(
-        @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody WorkSpace workSpace
-    ) throws URISyntaxException {
-        log.debug("REST request to update WorkSpace : {}, {}", id, workSpace);
-        if (workSpace.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        if (!Objects.equals(id, workSpace.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
-        }
-
-        if (!workSpaceRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
-        }
-
-        WorkSpace result = workSpaceRepository.save(workSpace);
-        return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, workSpace.getId().toString()))
-            .body(result);
+    @PostMapping("/work-spaces/{id}/invite")
+    public void inviteToWorkSpace(@RequestBody InviteDTO inviteDTO) {
     }
 
     /**
@@ -144,18 +120,13 @@ public class WorkSpaceResource {
     /**
      * {@code GET  /work-spaces} : get all the workSpaces.
      *
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of workSpaces in body.
      */
     @GetMapping("/work-spaces")
-    public List<WorkSpace> getAllWorkSpacesOfCurrentUser(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    public List<WorkSpace> getAllWorkSpacesOfCurrentUser() {
         log.debug("REST request to get all WorkSpaces");
         final User currentUser = userService.getUserWithAuthorities().orElseThrow();
-        if (eagerload) {
-            return workSpaceRepository.findAllWithEagerRelationshipsByUser(currentUser);
-        } else {
-            return workSpaceRepository.findAllByUser(currentUser);
-        }
+        return workSpaceRepository.findAllByUser(currentUser);
     }
 
     /**
@@ -164,11 +135,10 @@ public class WorkSpaceResource {
      * @param id the id of the workSpace to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the workSpace, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/work-spaces/{id}")
-    public ResponseEntity<WorkSpace> getWorkSpace(@PathVariable Long id) {
+    @GetMapping("/work-spaces/{id}/clip-boards")
+    public List<ClipBoard> getWorkSpace(@PathVariable Long id) {
         log.debug("REST request to get WorkSpace : {}", id);
-        Optional<WorkSpace> workSpace = workSpaceRepository.findOneWithEagerRelationships(id);
-        return ResponseUtil.wrapOrNotFound(workSpace);
+        return clipBoardRepository.findAllByWorkSpace_id(id);
     }
 
     /**

@@ -59,40 +59,6 @@ public class ClipBoardResource {
     }
 
     /**
-     * {@code PUT  /clip-boards/:id} : Updates an existing clipBoard.
-     *
-     * @param id the id of the clipBoard to save.
-     * @param clipBoard the clipBoard to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated clipBoard,
-     * or with status {@code 400 (Bad Request)} if the clipBoard is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the clipBoard couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PutMapping("/clip-boards/{id}")
-    public ResponseEntity<ClipBoard> updateClipBoard(
-        @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody ClipBoard clipBoard
-    ) throws URISyntaxException {
-        log.debug("REST request to update ClipBoard : {}, {}", id, clipBoard);
-        if (clipBoard.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        if (!Objects.equals(id, clipBoard.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
-        }
-
-        if (!clipBoardRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
-        }
-
-        ClipBoard result = clipBoardRepository.save(clipBoard);
-        return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, clipBoard.getId().toString()))
-            .body(result);
-    }
-
-    /**
      * {@code PATCH  /clip-boards/:id} : Partial updates given fields of an existing clipBoard, field will ignore if it is null
      *
      * @param id the id of the clipBoard to save.
@@ -135,30 +101,6 @@ public class ClipBoardResource {
             result,
             HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, clipBoard.getId().toString())
         );
-    }
-
-    /**
-     * {@code GET  /clip-boards} : get all the clipBoards.
-     *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of clipBoards in body.
-     */
-    @GetMapping("/clip-boards")
-    public List<ClipBoard> getAllClipBoards() {
-        log.debug("REST request to get all ClipBoards");
-        return clipBoardRepository.findAll();
-    }
-
-    /**
-     * {@code GET  /clip-boards/:id} : get the "id" clipBoard.
-     *
-     * @param id the id of the clipBoard to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the clipBoard, or with status {@code 404 (Not Found)}.
-     */
-    @GetMapping("/clip-boards/{id}")
-    public ResponseEntity<ClipBoard> getClipBoard(@PathVariable Long id) {
-        log.debug("REST request to get ClipBoard : {}", id);
-        Optional<ClipBoard> clipBoard = clipBoardRepository.findById(id);
-        return ResponseUtil.wrapOrNotFound(clipBoard);
     }
 
     /**
