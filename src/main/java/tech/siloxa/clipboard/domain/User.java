@@ -47,7 +47,6 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Size(min = 2, max = 10)
     @Column(name = "language", length = 10)
     private Language language;
 
