@@ -12,6 +12,6 @@ import tech.siloxa.clipboard.domain.User;
 @SuppressWarnings("unused")
 @Repository
 public interface SessionRepository extends JpaRepository<Session, Long> {
-    @Query("select session from Session session where session.user.login = ?#{principal.username}")
-    List<Session> findByUserIsCurrentUser();
+
+    List<Session> findAllByUser(User currentUser);
 }

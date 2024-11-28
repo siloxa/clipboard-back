@@ -70,7 +70,8 @@ public class SessionResource {
     @GetMapping("/sessions")
     public List<Session> getAllSessions() {
         log.debug("REST request to get all Sessions");
-        return sessionRepository.findByUserIsCurrentUser();
+        final User currentUser = userService.getUserWithAuthorities().orElseThrow();
+        return sessionRepository.findAllByUser(currentUser);
     }
 
     /**
