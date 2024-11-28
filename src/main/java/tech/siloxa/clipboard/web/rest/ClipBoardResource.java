@@ -17,6 +17,8 @@ import tech.siloxa.clipboard.domain.ClipBoard;
 import tech.siloxa.clipboard.repository.ClipBoardRepository;
 import tech.siloxa.clipboard.web.rest.errors.BadRequestAlertException;
 
+import javax.annotation.Resource;
+
 /**
  * REST controller for managing {@link tech.siloxa.clipboard.domain.ClipBoard}.
  */
@@ -32,11 +34,8 @@ public class ClipBoardResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final ClipBoardRepository clipBoardRepository;
-
-    public ClipBoardResource(ClipBoardRepository clipBoardRepository) {
-        this.clipBoardRepository = clipBoardRepository;
-    }
+    @Resource
+    private ClipBoardRepository clipBoardRepository;
 
     /**
      * {@code POST  /clip-boards} : Create a new clipBoard.
@@ -91,6 +90,9 @@ public class ClipBoardResource {
             .map(existingClipBoard -> {
                 if (clipBoard.getContent() != null) {
                     existingClipBoard.setContent(clipBoard.getContent());
+                }
+                if (clipBoard.getDate() != null) {
+                    existingClipBoard.setDate(clipBoard.getDate());
                 }
 
                 return existingClipBoard;

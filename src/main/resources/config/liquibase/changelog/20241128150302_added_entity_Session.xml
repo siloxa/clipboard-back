@@ -7,24 +7,27 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <!--
-        Added the entity ClipBoard.
+        Added the entity Session.
     -->
-    <changeSet id="20240711075557-1" author="jhipster">
-        <createTable tableName="clip_board">
+    <changeSet id="20241128150302-1" author="jhipster">
+        <createTable tableName="session">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="content" type="varchar(255)">
+            <column name="device" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="location" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="date" type="${datetimeType}">
                 <constraints nullable="true" />
             </column>
-            <column name="work_space_id" type="bigint">
+            <column name="user_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="clip_board" columnName="date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="session" columnName="date" columnDataType="${datetimeType}"/>
     </changeSet>
 </databaseChangeLog>

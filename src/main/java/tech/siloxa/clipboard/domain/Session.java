@@ -1,6 +1,5 @@
 package tech.siloxa.clipboard.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import javax.persistence.*;
@@ -8,13 +7,13 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * A ClipBoard.
+ * A Session.
  */
 @Entity
-@Table(name = "clip_board")
+@Table(name = "session")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class ClipBoard implements Serializable {
+public class Session implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,15 +23,17 @@ public class ClipBoard implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "content")
-    private String content;
+    @Column(name = "device")
+    private String device;
+
+    @Column(name = "location")
+    private String location;
 
     @Column(name = "date")
     private ZonedDateTime date;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "clipBoards", "users" }, allowSetters = true)
-    private WorkSpace workSpace;
+    private User user;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -40,7 +41,7 @@ public class ClipBoard implements Serializable {
         return this.id;
     }
 
-    public ClipBoard id(Long id) {
+    public Session id(Long id) {
         this.setId(id);
         return this;
     }
@@ -49,24 +50,37 @@ public class ClipBoard implements Serializable {
         this.id = id;
     }
 
-    public String getContent() {
-        return this.content;
+    public String getDevice() {
+        return this.device;
     }
 
-    public ClipBoard content(String content) {
-        this.setContent(content);
+    public Session device(String device) {
+        this.setDevice(device);
         return this;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setDevice(String device) {
+        this.device = device;
+    }
+
+    public String getLocation() {
+        return this.location;
+    }
+
+    public Session location(String location) {
+        this.setLocation(location);
+        return this;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public ZonedDateTime getDate() {
         return this.date;
     }
 
-    public ClipBoard date(ZonedDateTime date) {
+    public Session date(ZonedDateTime date) {
         this.setDate(date);
         return this;
     }
@@ -75,16 +89,16 @@ public class ClipBoard implements Serializable {
         this.date = date;
     }
 
-    public WorkSpace getWorkSpace() {
-        return this.workSpace;
+    public User getUser() {
+        return this.user;
     }
 
-    public void setWorkSpace(WorkSpace workSpace) {
-        this.workSpace = workSpace;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public ClipBoard workSpace(WorkSpace workSpace) {
-        this.setWorkSpace(workSpace);
+    public Session user(User user) {
+        this.setUser(user);
         return this;
     }
 
@@ -95,10 +109,10 @@ public class ClipBoard implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ClipBoard)) {
+        if (!(o instanceof Session)) {
             return false;
         }
-        return id != null && id.equals(((ClipBoard) o).id);
+        return id != null && id.equals(((Session) o).id);
     }
 
     @Override
@@ -110,9 +124,10 @@ public class ClipBoard implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "ClipBoard{" +
+        return "Session{" +
             "id=" + getId() +
-            ", content='" + getContent() + "'" +
+            ", device='" + getDevice() + "'" +
+            ", location='" + getLocation() + "'" +
             ", date='" + getDate() + "'" +
             "}";
     }

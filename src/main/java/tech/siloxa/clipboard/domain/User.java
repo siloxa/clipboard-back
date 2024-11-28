@@ -18,6 +18,7 @@ import tech.siloxa.clipboard.domain.enumeration.Language;
 
 /**
  * A user.
+ * admin password: @Su;U}98<D14
  */
 @Entity
 @Table(name = "jhi_user")

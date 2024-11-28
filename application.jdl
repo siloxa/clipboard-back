@@ -4,10 +4,21 @@ entity WorkSpace {
 
 entity ClipBoard {
     content String
+    date ZonedDateTime
+}
+
+entity Session {
+    device String
+    location String
+    date ZonedDateTime
 }
 
 relationship OneToMany {
     WorkSpace to ClipBoard
+}
+
+relationship ManyToOne {
+    Session to User
 }
 
 relationship ManyToMany {

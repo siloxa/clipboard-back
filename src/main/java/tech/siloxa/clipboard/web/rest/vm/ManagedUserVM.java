@@ -8,7 +8,7 @@ import tech.siloxa.clipboard.service.dto.AdminUserDTO;
  */
 public class ManagedUserVM extends AdminUserDTO {
 
-    public static final int PASSWORD_MIN_LENGTH = 4;
+    public static final int PASSWORD_MIN_LENGTH = 8;
 
     public static final int PASSWORD_MAX_LENGTH = 100;
 

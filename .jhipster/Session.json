@@ -1,12 +1,16 @@
 {
   "applications": "*",
-  "changelogDate": "20240711075557",
+  "changelogDate": "20241128150302",
   "dto": "no",
   "embedded": false,
-  "entityTableName": "clip_board",
+  "entityTableName": "session",
   "fields": [
     {
-      "fieldName": "content",
+      "fieldName": "device",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "location",
       "fieldType": "String"
     },
     {
@@ -16,14 +20,14 @@
   ],
   "fluentMethods": true,
   "jpaMetamodelFiltering": false,
-  "name": "ClipBoard",
+  "name": "Session",
   "pagination": "no",
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "workSpace",
-      "otherEntityRelationshipName": "clipBoard",
-      "relationshipName": "workSpace",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "session",
+      "relationshipName": "user",
       "relationshipType": "many-to-one"
     }
   ],

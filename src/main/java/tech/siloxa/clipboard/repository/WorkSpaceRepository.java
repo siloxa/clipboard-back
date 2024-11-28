@@ -34,5 +34,5 @@ public interface WorkSpaceRepository extends WorkSpaceRepositoryWithBagRelations
         return this.fetchBagRelationships(this.findAll(pageable));
     }
 
-    List<WorkSpace> findAllByUser(User user);
+    List<WorkSpace> findAllByUser(User currenUser);
 }
