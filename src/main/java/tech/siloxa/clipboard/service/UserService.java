@@ -93,7 +93,7 @@ public class UserService {
         // new user gets initially a generated password
         newUser.setPassword(encryptedPassword);
         newUser.setName(userDTO.getName());
-        newUser.setImageUrl(peoplifyService.randomAvatar());
+//        newUser.setImageUrl(peoplifyService.randomAvatar());
         if (userDTO.getLanguage() == null) {
             newUser.setLanguage(Constants.DEFAULT_LANGUAGE); // default language
         } else {
