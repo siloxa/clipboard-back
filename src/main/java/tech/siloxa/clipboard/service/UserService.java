@@ -74,7 +74,7 @@ public class UserService {
         return userRepository
             .findOneByEmailIgnoreCase(mail)
             .map(user -> {
-                user.setResetKey(RandomUtil.generateResetKey());
+                user.setResetKey(String.valueOf(100000 + new Random().nextInt(900000)));
                 user.setResetDate(Instant.now());
                 this.clearUserCaches(user);
                 return user;
