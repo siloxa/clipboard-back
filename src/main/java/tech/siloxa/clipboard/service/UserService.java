@@ -207,8 +207,9 @@ public class UserService {
                 if (documentStoreService.removeDocument(user.getImageUrl())) {
                     final String fileName = documentStoreService.storeDocument(image);
                     user.setImageUrl(fileName);
+                    this.clearUserCaches(user);
+                    log.debug("Changed Information for User: {}", user);
                 }
-                log.debug("Changed Information for User: {}", user);
             });
     }
 
