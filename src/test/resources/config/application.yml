@@ -85,7 +85,11 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+  name: clipboard
+  http-client:
+    read-timeout: 30
+    connection-timeout: 10
 management:
   health:
     mail:

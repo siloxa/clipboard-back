@@ -42,9 +42,17 @@ public class DocumentStoreService {
             final String[] imageName = Objects.requireNonNull(multipartFile.getOriginalFilename()).split("\\.");
             final String extension = imageName[imageName.length - 1];
             final String fileName = UUID.randomUUID() + "." + extension;
+            return storeDocument(fileName, multipartFile.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String storeDocument(final String fileName, final byte[] bytes) {
+        try {
             final File file = new File(publicPath + fileName);
             final FileOutputStream fileOutputStream = new FileOutputStream(file.getAbsolutePath());
-            fileOutputStream.write(multipartFile.getBytes());
+            fileOutputStream.write(bytes);
             fileOutputStream.close();
             return applicationProperties.getCdn() + fileName;
         } catch (IOException e) {

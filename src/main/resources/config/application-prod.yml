@@ -124,5 +124,5 @@ jhipster:
 # ===================================================================
 
 application:
-  name: clipboard
   cdn: https://clipboard-cdn.siloxa.tech/
+  peoplify: http://localhost:8585/api/generate/avatar?avatarType=Body&size=100
