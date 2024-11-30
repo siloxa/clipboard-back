@@ -76,6 +76,7 @@ public class UserService {
             .map(user -> {
                 user.setResetKey(String.valueOf(100000 + new Random().nextInt(900000)));
                 user.setResetDate(Instant.now());
+                userRepository.save(user);
                 this.clearUserCaches(user);
                 return user;
             });
