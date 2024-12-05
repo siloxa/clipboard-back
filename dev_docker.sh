@@ -1,15 +1,15 @@
 #!/bin/bash
   case $1 in
     -u|up)
-      docker-compose -f src/main/docker/postgresql.yml up -d
+      docker compose -f src/main/docker/postgresql.yml up -d
       exit 0
       ;;
     -d|down)
-      docker-compose -f src/main/docker/postgresql.yml down
+      docker compose -f src/main/docker/postgresql.yml down
       exit 0
       ;;
     -r|reset)
-      docker-compose -f src/main/docker/postgresql.yml down && docker-compose -f src/main/docker/postgresql.yml up -d
+      docker compose -f src/main/docker/postgresql.yml down && docker compose -f src/main/docker/postgresql.yml up -d
       exit 0
       ;;
   esac

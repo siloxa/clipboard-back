@@ -104,4 +104,6 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+  cdn: /public/
+  peoplify: https://peoplify.pics/api/generate/avatar?avatarType=Body&size=100

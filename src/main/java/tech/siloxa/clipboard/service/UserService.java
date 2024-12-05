@@ -76,7 +76,6 @@ public class UserService {
             .map(user -> {
                 user.setResetKey(String.valueOf(100000 + new Random().nextInt(900000)));
                 user.setResetDate(Instant.now());
-                userRepository.save(user);
                 this.clearUserCaches(user);
                 return user;
             });
@@ -91,10 +90,9 @@ public class UserService {
         User newUser = new User();
         String encryptedPassword = passwordEncoder.encode(password);
         newUser.setEmail(userDTO.getEmail().toLowerCase());
-        // new user gets initially a generated password
         newUser.setPassword(encryptedPassword);
         newUser.setName(userDTO.getName());
-//        newUser.setImageUrl(peoplifyService.randomAvatar());
+        newUser.setImageUrl(peoplifyService.randomAvatar());
         if (userDTO.getLanguage() == null) {
             newUser.setLanguage(Constants.DEFAULT_LANGUAGE); // default language
         } else {

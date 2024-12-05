@@ -20,6 +20,7 @@ import tech.siloxa.clipboard.service.dto.PasswordChangeDTO;
 import tech.siloxa.clipboard.web.rest.errors.*;
 import tech.siloxa.clipboard.web.rest.vm.KeyAndPasswordVM;
 import tech.siloxa.clipboard.web.rest.vm.ManagedUserVM;
+import tech.siloxa.clipboard.web.rest.vm.PasswordResetInitVM;
 
 /**
  * REST controller for managing the current user's account.
@@ -137,16 +138,11 @@ public class AccountResource {
         userService.changePassword(passwordChangeDto.getCurrentPassword(), passwordChangeDto.getNewPassword());
     }
 
-    /**
-     * {@code POST   /account/reset-password/init} : Send an email to reset the password of the user.
-     *
-     * @param mail the mail of the user.
-     */
     @PostMapping(path = "/account/reset-password/init")
-    public void requestPasswordReset(@RequestBody String mail) {
-        Optional<User> user = userService.requestPasswordReset(mail);
+    public void requestPasswordReset(@RequestBody PasswordResetInitVM passwordResetInitVM) {
+        Optional<User> user = userService.requestPasswordReset(passwordResetInitVM.getEmail());
         if (user.isPresent()) {
-            mailService.sendPasswordResetMail(user.get());
+            // mailService.sendPasswordResetMail(user.get());
         } else {
             // Pretend the request has been successful to prevent checking which emails really exist
             // but log that an invalid attempt has been made

@@ -125,4 +125,4 @@ jhipster:
 
 application:
   cdn: https://clipboard-cdn.siloxa.tech/
-  peoplify: http://localhost:8585/api/generate/avatar?avatarType=Body&size=100
+  peoplify: https://peoplify.pics/api/generate/avatar?avatarType=Body&size=100
